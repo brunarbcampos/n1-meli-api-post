@@ -47,3 +47,18 @@ exports.getById = (request, response) => {
     delete prof.cpf
     response.status(200).send(profId)
 }
+
+exports.post = (req, res) => {
+    const { id, nome, especialidade, signo, cpf } = req.body;
+    professoras.push({ id, nome, especialidade, signo, cpf });
+
+fs.writeFile("./src/model/professoras.json", JSON.stringify(professoras), 'utf8', function (err) {
+        if (err) {
+            return res.status(500).send({ message: error });
+        }
+        console.log("The file was saved!");   
+}); 
+
+return res.status(201).send(professoras);
+}
+

@@ -76,9 +76,9 @@ function calcularIdade(anoDeNasc, mesDeNasc, diaDeNasc) {
         alunas.push({ nome, dateOfBirth, nasceuEmSp, id, livros });
 
     fs.writeFile("./src/model/alunas.json", JSON.stringify(alunas), 'utf8', function (err) {
-            if (err) {
-                return res.status(500).send({ message: error });
-            }
+        if (err) {
+            return res.status(500).send({ message: error });
+        }
             console.log("The file was saved!");   
     }); 
 
@@ -91,4 +91,15 @@ exports.postBooks = (req, res) => {
     if (!aluna) {
         res.send("Não encontrei essa garota")
     }
+const { titulo, leu } =  req.body;
+alunas[aluna.id - 1].livros.push({ titulo, leu});
+
+fs.writeFile("./src/model/alunas.json", JSON.stringify(alunas), 'utf8', function (err) {
+    if (err) {
+        return res.status(500).send({ message: error });
+        }
+            console.log("The file was saved!"); 
+});
+
+return res.status(201).send(alunas[aluna.id -1].livros);
 }
